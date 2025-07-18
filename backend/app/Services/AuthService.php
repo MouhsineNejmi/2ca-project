@@ -25,8 +25,9 @@ class AuthService
   public function register(array $data): array
   {
     $data['password'] = Hash::make($data['password']);
-      
+
     $user = $this->userRepository->create($data);
+
     $token = JWTAuth::fromUser($user);
     
     return [
