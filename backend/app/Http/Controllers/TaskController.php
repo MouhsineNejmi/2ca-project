@@ -53,15 +53,13 @@ class TaskController extends Controller
   /**
    * Update existing task
    */
-  public function update(UpdateTaskRequest $request, int $id): JsonResponse
+  public function update(UpdateTaskRequest $request, int $taskId): JsonResponse
   {
-    $task = $this->taskService->updateTask($id, $request->validated(), auth()->id());
-    
-    if (!$task) {
+    $updatedTask = $this->taskService->updateTask($taskId, $request->validated(), auth()->id());
+    if (!$updatedTask) {
       return response()->json(['error' => 'Task not found'], 404);
     }
-    
-    return response()->json($task);
+    return response()->json($updatedTask);
   }
 
   /**

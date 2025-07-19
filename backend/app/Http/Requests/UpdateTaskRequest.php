@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Task;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTaskRequest extends FormRequest
@@ -12,7 +14,8 @@ class UpdateTaskRequest extends FormRequest
   public function authorize(): bool
   {
     // Check if the authenticated user owns this task
-    $task = $this->route('task');
+    $taskId = $this->route('id');
+    $task = Task::find($taskId);
       
     return $task && $task->user_id === auth()->id();
   }
@@ -50,7 +53,7 @@ class UpdateTaskRequest extends FormRequest
    */
   protected function failedAuthorization()
   {
-    throw new \Illuminate\Auth\Access\AuthorizationException(
+    throw new AuthorizationException(
       'You can only update your own tasks.'
     );
   }
