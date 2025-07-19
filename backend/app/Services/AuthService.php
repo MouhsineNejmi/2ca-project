@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
+use Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**

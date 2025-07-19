@@ -33,6 +33,8 @@ class AuthController extends Controller {
       return response()->json($result,401);
     }
 
-    return response()->json($result);
+    return response()
+      ->json($result)
+      ->cookie('token', $result['token'], 60, '/', null, true, true, false, 'Lax');
   }
 }
