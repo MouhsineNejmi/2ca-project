@@ -15,7 +15,28 @@
       >
         <div class="flex items-center gap-3">
           <input type="checkbox" :checked="task.completed" @change="toggleCompletion(task.id)" />
-          <span :class="{ 'line-through text-gray-400': task.completed }">{{ task.title }}</span>
+          <span
+            v-if="editTaskId !== task.id"
+            :class="{ 'line-through text-gray-400': task.completed }"
+            >{{ task.title }}</span
+          >
+          <form v-else @submit.prevent="saveEdit(task.id)" class="flex items-center gap-2">
+            <Input v-model="editTaskTitle" type="text" class="w-40" />
+            <Button type="submit">Save</Button>
+            <Button type="button" class="bg-gray-300 text-gray-800" @click="cancelEdit"
+              >Cancel</Button
+            >
+          </form>
+        </div>
+        <div class="flex gap-2">
+          <Button
+            v-if="editTaskId !== task.id"
+            type="button"
+            class="bg-yellow-400 text-black"
+            @click="startEdit(task)"
+            >Edit</Button
+          >
+          <Button type="button" class="bg-red-500" @click="deleteTask(task.id)">Delete</Button>
         </div>
       </li>
     </ul>
@@ -60,6 +81,8 @@ const tasksStore = useTasksStore()
 const showCreateTask = ref(false)
 const newTaskTitle = ref('')
 const localError = ref<string | null>(null)
+const editTaskId = ref<number | null>(null)
+const editTaskTitle = ref('')
 
 const fetchTasks = async () => {
   localError.value = null
@@ -79,6 +102,35 @@ const createTask = async () => {
     showCreateTask.value = false
   } else {
     localError.value = result.error || 'Failed to create task.'
+  }
+}
+
+const startEdit = (task: { id: number; title: string }) => {
+  editTaskId.value = task.id
+  editTaskTitle.value = task.title
+}
+
+const saveEdit = async (taskId: number) => {
+  localError.value = null
+  const result = await tasksStore.updateTask(taskId, { title: editTaskTitle.value })
+  if (result.success) {
+    editTaskId.value = null
+    editTaskTitle.value = ''
+  } else {
+    localError.value = result.error || 'Failed to update task.'
+  }
+}
+
+const cancelEdit = () => {
+  editTaskId.value = null
+  editTaskTitle.value = ''
+}
+
+const deleteTask = async (taskId: number) => {
+  localError.value = null
+  const result = await tasksStore.deleteTask(taskId)
+  if (!result.success) {
+    localError.value = result.error || 'Failed to delete task.'
   }
 }
 

@@ -16,7 +16,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/{id}', [TaskController::class, 'show']);
     Route::post('/', [TaskController::class, 'create']);
     Route::put('/{id}', [TaskController::class, 'update']);
-    Route::delete('/', [TaskController::class,'delete']);
+    Route::delete('/{id}', [TaskController::class,'delete']);
   });
   
   Route::get('/user', function (Request $request) {
