@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null
 
       try {
-        const { data } = await axios.post(`${API_URL}/auth/register`, userData, {
+        await axios.post(`${API_URL}/auth/register`, userData, {
           withCredentials: true,
         })
 
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth', {
       this.error = null
 
       try {
-        const { data } = await axios.post(`${API_URL}/auth/login`, credentials, {
+        await axios.post(`${API_URL}/auth/login`, credentials, {
           withCredentials: true,
         })
 
@@ -75,7 +75,6 @@ export const useAuthStore = defineStore('auth', {
         await this.fetchUser()
         return { success: true, user: this.user }
       } catch (error: any) {
-        console.log('ERROR LOGIN: ', error)
         this.error = error.response?.data?.message || 'Login failed'
         return { success: false, error: this.error }
       } finally {

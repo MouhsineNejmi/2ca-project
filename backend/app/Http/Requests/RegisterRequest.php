@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
       'phone_number' => 'required|string|max:20|unique:users',
       'address' => 'required|string|max:500',
       // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-      'image' => 'nullable|url|max:2048',
+      // 'image' => 'nullable|url|max:2048',
       'password' => 'required|string|min:8|confirmed',
     ];
   }
@@ -54,9 +54,9 @@ class RegisterRequest extends FormRequest
       'address.required' => 'Address is required.',
       'address.max' => 'Address cannot exceed 500 characters.',
       
-      'image.image' => 'The file must be an image.',
-      'image.mimes' => 'Image must be a file of type: jpeg, png, jpg, gif.',
-      'image.max' => 'Image size cannot exceed 2MB.',
+      // 'image.image' => 'The file must be an image.',
+      // 'image.mimes' => 'Image must be a file of type: jpeg, png, jpg, gif.',
+      // 'image.max' => 'Image size cannot exceed 2MB.',
       
       'password.required' => 'Password is required.',
       'password.min' => 'Password must be at least 8 characters long.',

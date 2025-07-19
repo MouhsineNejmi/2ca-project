@@ -72,7 +72,13 @@ const onRegister = async () => {
     password: password.value,
     password_confirmation: confirmPassword.value,
   })
+
+  if (!result.success) {
+    alert(result.error)
+  }
+
   if (result && result.success) {
+    alert('Register Success!')
     router.push('/')
   }
 }

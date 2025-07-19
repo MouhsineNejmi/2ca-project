@@ -41,7 +41,6 @@ const onLogin = async () => {
   }
 
   if (!success && error) {
-    console.error('ERROR: ', error)
     alert(error)
   }
 }
